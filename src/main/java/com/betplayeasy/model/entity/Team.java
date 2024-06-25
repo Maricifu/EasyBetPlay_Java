@@ -4,21 +4,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Team {
-    private int id;
     private String nombre;
     private String ciudad;
-    private List<Player> lstJugadores;
-    private List<Coach> lstEntrenadores;
-    private List<Doctor> lstMasajistas;
+    private int id;
+    private final List<Player> lstJugadores;
+    private final List<Coach> lstEntrenadores;
+    private final List<Doctor> lstMasajistas;
+
     public Team() {
-        lstEntrenadores = new ArrayList<Coach>();
-        lstJugadores = new ArrayList<Player>();
-        lstMasajistas = new ArrayList<Doctor>();
+        lstEntrenadores = new ArrayList<>();
+        lstJugadores = new ArrayList<>();
+        lstMasajistas = new ArrayList<>();
     }
     public int getId() {
         return id;
     }
-
     public void setId(int id) {
         this.id = id;
     }

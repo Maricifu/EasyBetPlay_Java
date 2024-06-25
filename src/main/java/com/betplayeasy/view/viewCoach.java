@@ -1,15 +1,18 @@
 package com.betplayeasy.view;
 
 import java.util.Scanner;
+import com.betplayeasy.Controller;
 import com.betplayeasy.model.entity.Coach;
 import com.betplayeasy.model.entity.Team;
 
 public class viewCoach {
-    private Team equipoSeleccionado; // Equipo en el que se gestionarán los entrenadores
-    private Scanner scanner;
+    private final Team equipoSeleccionado; // Equipo en el que se gestionarán los entrenadores
+    private final Scanner scanner;
+    private final Controller controlador; // Referencia al controlador
 
-    public viewCoach(Team equipoSeleccionado) {
+    public viewCoach(Team equipoSeleccionado, Controller controlador) {
         this.equipoSeleccionado = equipoSeleccionado;
+        this.controlador = controlador;
         this.scanner = new Scanner(System.in);
     }
 
@@ -47,12 +50,18 @@ public class viewCoach {
         System.out.println("Ingrese la edad del entrenador:");
         int edad = scanner.nextInt();
         scanner.nextLine(); 
-        System.out.println("Ingrese el ID de federación del entrenador:");
-        int idFederacion = scanner.nextInt();
+        System.out.println("Ingrese el título del entrenador:");
+        String titulo = scanner.nextLine();
+        System.out.println("Ingrese los años de experiencia del entrenador:");
+        int expYear = scanner.nextInt();
         scanner.nextLine(); 
 
-        Coach nuevoEntrenador = new Coach(equipoSeleccionado.getId(), nombre, apellido, edad, idFederacion);
-        equipoSeleccionado.getLstEntrenadores().add(nuevoEntrenador);
+        // Crear un nuevo objeto Coach
+        Coach nuevoEntrenador = new Coach(nombre, apellido, edad, titulo, expYear);
+
+        // Llamar al controlador para agregar el entrenador al equipo seleccionado
+        controlador.agregarEntrenador(equipoSeleccionado.getId(), nuevoEntrenador);
+
         System.out.println("Entrenador creado exitosamente para el equipo " + equipoSeleccionado.getNombre() + ".");
     }
 
@@ -71,13 +80,8 @@ public class viewCoach {
         int idEntrenador = scanner.nextInt();
         scanner.nextLine(); 
 
-        Coach entrenadorActualizar = null;
-        for (Coach entrenador : equipoSeleccionado.getLstEntrenadores()) {
-            if (entrenador.getId() == idEntrenador) {
-                entrenadorActualizar = entrenador;
-                break;
-            }
-        }
+        // Llamar al controlador para obtener el entrenador a actualizar
+        Coach entrenadorActualizar = controlador.obtenerEntrenador(equipoSeleccionado.getId(), idEntrenador);
 
         if (entrenadorActualizar == null) {
             System.out.println("No se encontró ningún entrenador con ese ID para el equipo " + equipoSeleccionado.getNombre() + ".");
@@ -88,6 +92,10 @@ public class viewCoach {
         entrenadorActualizar.setNombre(scanner.nextLine());
         System.out.println("Ingrese el nuevo apellido del entrenador:");
         entrenadorActualizar.setApellido(scanner.nextLine());
+
+        // Llamar al controlador para actualizar el entrenador
+        controlador.actualizarEntrenador(equipoSeleccionado.getId(), entrenadorActualizar);
+
         System.out.println("Entrenador actualizado correctamente.");
     }
 
@@ -106,20 +114,9 @@ public class viewCoach {
         int idEntrenador = scanner.nextInt();
         scanner.nextLine(); 
 
-        Coach entrenadorEliminar = null;
-        for (Coach entrenador : equipoSeleccionado.getLstEntrenadores()) {
-            if (entrenador.getId() == idEntrenador) {
-                entrenadorEliminar = entrenador;
-                break;
-            }
-        }
+        // Llamar al controlador para eliminar el entrenador
+        controlador.eliminarEntrenador(equipoSeleccionado.getId(), idEntrenador);
 
-        if (entrenadorEliminar == null) {
-            System.out.println("No se encontró ningún entrenador con ese ID para el equipo " + equipoSeleccionado.getNombre() + ".");
-            return;
-        }
-
-        equipoSeleccionado.getLstEntrenadores().remove(entrenadorEliminar);
         System.out.println("Entrenador eliminado correctamente del equipo " + equipoSeleccionado.getNombre() + ".");
     }
 }

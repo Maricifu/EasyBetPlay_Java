@@ -1,7 +1,7 @@
 package com.betplayeasy.model.entity;
 
 public class Person {
-    private int id;
+    public int id;
     private String nombre;
     private String apellido;
     private int edad;

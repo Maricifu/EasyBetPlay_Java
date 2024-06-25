@@ -1,15 +1,19 @@
 package com.betplayeasy.view;
 
 import java.util.Scanner;
+
+import com.betplayeasy.Controller;
 import com.betplayeasy.model.entity.Player;
 import com.betplayeasy.model.entity.Team;
 
 public class viewPlayer {
-    private Team equipoSeleccionado; // Equipo en el que se gestionarán los jugadores
-    private Scanner scanner;
+    private final Team equipoSeleccionado; // Equipo en el que se gestionarán los jugadores
+    private final Scanner scanner;
+    private final Controller controlador; // Referencia al controlador
 
-    public viewPlayer(Team equipoSeleccionado) {
+    public viewPlayer(Team equipoSeleccionado, Controller controlador) {
         this.equipoSeleccionado = equipoSeleccionado;
+        this.controlador = controlador;
         this.scanner = new Scanner(System.in);
     }
 
@@ -53,8 +57,12 @@ public class viewPlayer {
         System.out.println("Ingrese la posición del jugador:");
         String posicion = scanner.nextLine();
 
+        // Crear un nuevo objeto Player
         Player nuevoJugador = new Player(equipoSeleccionado.getId(), nombre, apellido, edad, dorsal, posicion);
-        equipoSeleccionado.getLstJugadores().add(nuevoJugador);
+
+        // Llamar al controlador para agregar el jugador al equipo seleccionado
+        controlador.agregarJugador(equipoSeleccionado.getId(), nuevoJugador);
+
         System.out.println("Jugador creado exitosamente para el equipo " + equipoSeleccionado.getNombre() + ".");
     }
 
@@ -106,7 +114,7 @@ public class viewPlayer {
 
         System.out.println("Ingrese el ID del jugador que desea eliminar:");
         int idJugador = scanner.nextInt();
-        scanner.nextLine(); // Consume newline
+        scanner.nextLine(); 
 
         Player jugadorEliminar = null;
         for (Player jugador : equipoSeleccionado.getLstJugadores()) {

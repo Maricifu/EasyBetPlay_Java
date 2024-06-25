@@ -29,6 +29,4 @@ public class Doctor extends Person {
     public void setExpYear(int expYear) {
         this.expYear = expYear;
     }
-
-    // Opcional: Puedes implementar métodos adicionales según tus necesidades
 }

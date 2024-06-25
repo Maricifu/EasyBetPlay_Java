@@ -6,9 +6,9 @@ import com.betplayeasy.model.entity.Doctor;
 import com.betplayeasy.model.entity.Team;
 
 public class viewDoctor {
-    private Team equipoSeleccionado; // Equipo en el que se gestionarán los doctores
-    private Scanner scanner;
-    public Controller controlador; // Referencia al controlador
+    private final Team equipoSeleccionado; // Equipo en el que se gestionarán los doctores
+    private final Scanner scanner;
+    private final Controller controlador; // Referencia al controlador
 
     public viewDoctor(Team equipoSeleccionado, Controller controlador) {
         this.equipoSeleccionado = equipoSeleccionado;
@@ -57,8 +57,7 @@ public class viewDoctor {
         scanner.nextLine(); 
 
         // Crear un nuevo objeto Doctor
-        Doctor nuevoDoctor = new Doctor(id, nombre, apellido, edad, titulo, expYear);
-
+        Doctor nuevoDoctor = new Doctor(0, nombre, apellido, edad, titulo, expYear);
 
         // Llamar al controlador para agregar el doctor al equipo seleccionado
         controlador.agregarDoctor(equipoSeleccionado.getId(), nuevoDoctor);
