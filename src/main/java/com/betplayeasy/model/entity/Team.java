@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Team {
+    private int id;
     private String nombre;
     private String ciudad;
     private List<Player> lstJugadores;
@@ -13,6 +14,13 @@ public class Team {
         lstEntrenadores = new ArrayList<Coach>();
         lstJugadores = new ArrayList<Player>();
         lstMasajistas = new ArrayList<Doctor>();
+    }
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
     public String getNombre() {
         return nombre;
