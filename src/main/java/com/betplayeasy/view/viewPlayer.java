@@ -1,135 +1,115 @@
 package com.betplayeasy.view;
 
+import java.util.Map;
 import java.util.Scanner;
 
 import com.betplayeasy.Controller;
 import com.betplayeasy.model.entity.Player;
-import com.betplayeasy.model.entity.Team;
 
 public class viewPlayer {
-    private final Team equipoSeleccionado; // Equipo en el que se gestionarán los jugadores
-    private final Scanner scanner;
-    private final Controller controlador; // Referencia al controlador
-
-    public viewPlayer(Team equipoSeleccionado, Controller controlador) {
-        this.equipoSeleccionado = equipoSeleccionado;
-        this.controlador = controlador;
-        this.scanner = new Scanner(System.in);
-    }
-
+    public static Controller controlador;
     public void start() {
-        if (equipoSeleccionado == null) {
-            System.out.println("Primero seleccione o cree un equipo para gestionar jugadores.");
-            return;
-        }
+        Scanner scanner = new Scanner(System.in);
 
         while (true) {
             System.out.println("1. Crear Jugador");
             System.out.println("2. Actualizar Jugador");
-            System.out.println("3. Eliminar Jugador");
-            System.out.println("4. Volver al Menú Principal");
+            System.out.println("3. Buscar Jugador");
+            System.out.println("4. Eliminar Jugador");
+            System.out.println("5. Listar todos los Jugadores");
+            System.out.println("6. Salir");
             int choice = scanner.nextInt();
-            scanner.nextLine(); 
+            scanner.nextLine(); // Consume newline
 
             switch (choice) {
-                case 1 -> crearJugador();
-                case 2 -> actualizarJugador();
-                case 3 -> eliminarJugador();
+                case 1 -> {
+                    Player jugador = new Player();
+                    String codigoJugador = null;
+                    System.out.println("Ingrese el código del jugador:");
+                    codigoJugador = scanner.nextLine();
+                    System.out.println("Ingrese el nombre del jugador:");
+                    jugador.setNombre(scanner.nextLine());
+                    System.out.println("Ingrese el apellido del jugador:");
+                    jugador.setApellido(scanner.nextLine());
+                    System.out.println("Ingrese la edad del jugador:");
+                    jugador.setEdad(scanner.nextInt());
+                    scanner.nextLine(); // Consume newline
+                    System.out.println("Ingrese el dorsal del jugador:");
+                    jugador.setDorsal(scanner.nextInt());
+                    scanner.nextLine(); // Consume newline
+                    System.out.println("Ingrese la posición del jugador:");
+                    jugador.setPosicion(scanner.nextLine());
+                    controlador.jugadores.put(codigoJugador, jugador);
+                }
+
+                case 2 -> {
+                    System.out.println("Ingrese el código del jugador que desea actualizar:");
+                    String codigoJugadorActualizar = scanner.nextLine();
+                    Player jugadorActualizar = controlador.jugadores.get(codigoJugadorActualizar);
+                    
+                    if (jugadorActualizar != null) {
+                        System.out.println("Ingrese el nuevo nombre del jugador:");
+                        jugadorActualizar.setNombre(scanner.nextLine());
+                        System.out.println("Ingrese el nuevo apellido del jugador:");
+                        jugadorActualizar.setApellido(scanner.nextLine());
+                        System.out.println("Ingrese la nueva edad del jugador:");
+                        jugadorActualizar.setEdad(scanner.nextInt());
+                        scanner.nextLine(); // Consume newline
+                        System.out.println("Ingrese el nuevo dorsal del jugador:");
+                        jugadorActualizar.setDorsal(scanner.nextInt());
+                        scanner.nextLine(); // Consume newline
+                        System.out.println("Ingrese la nueva posición del jugador:");
+                        jugadorActualizar.setPosicion(scanner.nextLine());
+
+                        controlador.jugadores.put(codigoJugadorActualizar, jugadorActualizar);
+                        System.out.println("Jugador actualizado exitosamente.");
+                    } else {
+                        System.out.println("No se encontró ningún jugador con ese código. No se puede actualizar.");
+                    }
+                }
+
+                case 3 -> {
+                    System.out.println("Ingrese el código del jugador que desea buscar:");
+                    String codigoJ = scanner.nextLine();
+                    Player j = controlador.jugadores.get(codigoJ);
+                    
+                    if (j != null) {
+                        System.out.println("Nombre del jugador encontrado: " + j.getNombre());
+                        System.out.println("Apellido del jugador encontrado: " + j.getApellido());
+                        System.out.println("Edad del jugador encontrado: " + j.getEdad());
+                        System.out.println("Dorsal del jugador encontrado: " + j.getDorsal());
+                        System.out.println("Posición del jugador encontrado: " + j.getPosicion());
+                    } else {
+                        System.out.println("No se encontró ningún jugador con ese código.");
+                    }
+                }
                 case 4 -> {
+                    System.out.println("Ingrese el código del jugador que desea eliminar:");
+                    String codigoJugadorEliminar = scanner.nextLine();
+                    Player jugadorEliminar = controlador.jugadores.remove(codigoJugadorEliminar);
+                    
+                    if (jugadorEliminar != null) {
+                        System.out.println("Jugador eliminado correctamente.");
+                    } else {
+                        System.out.println("No se encontró ningún jugador con ese código. No se puede eliminar.");
+                    }
+                }
+
+                case 5 -> {
+                    System.out.println("Lista de Jugadores:");
+                    for (Map.Entry<String, Player> entry : controlador.jugadores.entrySet()) {
+                        String codigoJugador = entry.getKey();
+                        Player jugador = entry.getValue();
+                        System.out.println("Código: " + codigoJugador + ", Nombre: " + jugador.getNombre() + ", Apellido: " + jugador.getApellido() + ", Edad: " + jugador.getEdad() + ", Dorsal: " + jugador.getDorsal() + ", Posición: " + jugador.getPosicion());
+                    }
+                }
+
+                case 6 -> {
                     return;
                 }
-                default -> System.out.println("Opción inválida. Intente de nuevo.");
+
+                default -> System.out.println("Opción inválida, inténtelo de nuevo.");
             }
         }
-    }
-
-    private void crearJugador() {
-        System.out.println("Ingrese el nombre del jugador:");
-        String nombre = scanner.nextLine();
-        System.out.println("Ingrese el apellido del jugador:");
-        String apellido = scanner.nextLine();
-        System.out.println("Ingrese la edad del jugador:");
-        int edad = scanner.nextInt();
-        scanner.nextLine(); 
-        System.out.println("Ingrese el dorsal del jugador:");
-        int dorsal = scanner.nextInt();
-        scanner.nextLine(); 
-        System.out.println("Ingrese la posición del jugador:");
-        String posicion = scanner.nextLine();
-
-        // Crear un nuevo objeto Player
-        Player nuevoJugador = new Player(equipoSeleccionado.getId(), nombre, apellido, edad, dorsal, posicion);
-
-        // Llamar al controlador para agregar el jugador al equipo seleccionado
-        controlador.agregarJugador(equipoSeleccionado.getId(), nuevoJugador);
-
-        System.out.println("Jugador creado exitosamente para el equipo " + equipoSeleccionado.getNombre() + ".");
-    }
-
-    private void actualizarJugador() {
-        if (equipoSeleccionado.getLstJugadores().isEmpty()) {
-            System.out.println("No hay jugadores para actualizar.");
-            return;
-        }
-
-        System.out.println("Lista de Jugadores:");
-        for (Player jugador : equipoSeleccionado.getLstJugadores()) {
-            System.out.println(jugador.getId() + ". " + jugador.getNombre() + " " + jugador.getApellido());
-        }
-
-        System.out.println("Ingrese el ID del jugador que desea actualizar:");
-        int idJugador = scanner.nextInt();
-        scanner.nextLine(); 
-
-        Player jugadorActualizar = null;
-        for (Player jugador : equipoSeleccionado.getLstJugadores()) {
-            if (jugador.getId() == idJugador) {
-                jugadorActualizar = jugador;
-                break;
-            }
-        }
-
-        if (jugadorActualizar == null) {
-            System.out.println("No se encontró ningún jugador con ese ID para el equipo " + equipoSeleccionado.getNombre() + ".");
-            return;
-        }
-
-        System.out.println("Ingrese el nuevo nombre del jugador:");
-        jugadorActualizar.setNombre(scanner.nextLine());
-        System.out.println("Ingrese el nuevo apellido del jugador:");
-        jugadorActualizar.setApellido(scanner.nextLine());
-        System.out.println("Jugador actualizado correctamente.");
-    }
-
-    private void eliminarJugador() {
-        if (equipoSeleccionado.getLstJugadores().isEmpty()) {
-            System.out.println("No hay jugadores para eliminar.");
-            return;
-        }
-
-        System.out.println("Lista de Jugadores:");
-        for (Player jugador : equipoSeleccionado.getLstJugadores()) {
-            System.out.println(jugador.getId() + ". " + jugador.getNombre() + " " + jugador.getApellido());
-        }
-
-        System.out.println("Ingrese el ID del jugador que desea eliminar:");
-        int idJugador = scanner.nextInt();
-        scanner.nextLine(); 
-
-        Player jugadorEliminar = null;
-        for (Player jugador : equipoSeleccionado.getLstJugadores()) {
-            if (jugador.getId() == idJugador) {
-                jugadorEliminar = jugador;
-                break;
-            }
-        }
-
-        if (jugadorEliminar == null) {
-            System.out.println("No se encontró ningún jugador con ese ID para el equipo " + equipoSeleccionado.getNombre() + ".");
-            return;
-        }
-
-        equipoSeleccionado.getLstJugadores().remove(jugadorEliminar);
-        System.out.println("Jugador eliminado correctamente del equipo " + equipoSeleccionado.getNombre() + ".");
     }
 }

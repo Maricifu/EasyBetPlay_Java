@@ -29,12 +29,8 @@ public class viewCoach {
                     codigoCoach = scanner.nextLine();
                     System.out.println("Ingrese Nombre del coach:");
                     coach.setNombre(scanner.nextLine());
-                    System.out.println("Ingrese la edad del coach:");
-                    coach.setEdad(scanner.nextInt());
-                    scanner.nextLine(); 
-                    System.out.println("Ingrese el ID de federación del coach:");
-                    coach.setIdFederacion(scanner.nextInt());
-                    scanner.nextLine(); // Consume newline
+                    System.out.println("Ingrese la especialidad:");
+                    coach.setEspecialidad(scanner.nextLine());
                     controlador.coaches.put(codigoCoach, coach);
                 }
 
@@ -46,13 +42,9 @@ public class viewCoach {
                     if (coachActualizar != null) {
                         System.out.println("Ingrese el nuevo nombre del coach:");
                         coachActualizar.setNombre(scanner.nextLine());
-                        System.out.println("Ingrese la nueva edad del coach:");
-                        coachActualizar.setEdad(scanner.nextInt());
-                        scanner.nextLine(); 
-                        System.out.println("Ingrese el nuevo ID de federación del coach:");
-                        coachActualizar.setIdFederacion(scanner.nextInt());
-                        scanner.nextLine(); // Consume newline
-
+                        System.out.println("Ingrese la nueva especialidad:");
+                        coachActualizar.setEspecialidad(scanner.nextLine());
+                        
                         controlador.coaches.put(codigoCoachActualizar, coachActualizar);
                         System.out.println("Coach actualizado exitosamente.");
                     } else {
@@ -67,8 +59,6 @@ public class viewCoach {
                     
                     if (c != null) {
                         System.out.println("Nombre del coach encontrado: " + c.getNombre());
-                        System.out.println("Edad del coach encontrado: " + c.getEdad());
-                        System.out.println("ID de federación del coach encontrado: " + c.getIdFederacion());
                     } else {
                         System.out.println("No se encontró ningún coach con ese código.");
                     }
@@ -90,12 +80,13 @@ public class viewCoach {
                     for (Map.Entry<String, Coach> entry : controlador.coaches.entrySet()) {
                         String codigoCoach = entry.getKey();
                         Coach coach = entry.getValue();
-                        System.out.println("Código: " + codigoCoach + ", Nombre: " + coach.getNombre() + ", Edad: " + coach.getEdad() + ", ID de federación: " + coach.getIdFederacion());
+                        System.out.println("Código: " + codigoCoach + ", Nombre: " + coach.getNombre() + ", Especialidad: " + coach.getEspecialidad());
                     }
                 }
 
                 case 6 -> {
-                    return;
+                    scanner.close();
+                    System.exit(0);
                 }
 
                 default -> System.out.println("Opción inválida, inténtelo de nuevo.");

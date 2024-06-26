@@ -6,22 +6,11 @@ import java.util.Scanner;
 import com.betplayeasy.Controller;
 import com.betplayeasy.model.entity.Team;
 
+
 public class viewTeam {
-    private final Team equipoSeleccionado; // Equipo en el que se gestionarán los equipos
-    private final Scanner scanner;
-    private final Controller controlador; // Referencia al controlador
-
-    public viewTeam(Team equipoSeleccionado, Controller controlador) {
-        this.equipoSeleccionado = equipoSeleccionado;
-        this.controlador = controlador;
-        this.scanner = new Scanner(System.in);
-    }
-
+    public static Controller controlador;
     public void start() {
-        if (equipoSeleccionado == null) {
-            System.out.println("Primero seleccione o cree un equipo para gestionar equipos.");
-            return;
-        }
+        Scanner scanner = new Scanner(System.in);
 
         while (true) {
             System.out.println("1. Crear Equipo");
@@ -29,9 +18,9 @@ public class viewTeam {
             System.out.println("3. Buscar Equipo");
             System.out.println("4. Eliminar Equipo");
             System.out.println("5. Listar todos Equipos");
-            System.out.println("6. Volver al Menú Principal");
+            System.out.println("6. Salir");
             int choice = scanner.nextInt();
-            scanner.nextLine(); 
+            scanner.nextLine(); // Consume newline
 
             switch (choice) {
                 case 1 -> {
@@ -44,8 +33,8 @@ public class viewTeam {
                     System.out.println("Ingrese la ciudad :");
                     equipo.setCiudad(scanner.nextLine());
                     controlador.equipos.put(codigoEquipo, equipo);
-                    System.out.println("Equipo creado exitosamente.");
                 }
+
                 case 2 -> {
                     System.out.println("Ingrese el código del equipo que desea actualizar:");
                     String codigoEquipoActualizar = scanner.nextLine();
@@ -63,6 +52,7 @@ public class viewTeam {
                         System.out.println("No se encontró ningún equipo con ese código. No se puede actualizar.");
                     }
                 }
+
                 case 3 -> {
                     System.out.println("Ingrese el código del equipo que desea buscar:");
                     String codigoE = scanner.nextLine();
@@ -85,6 +75,7 @@ public class viewTeam {
                         System.out.println("No se encontró ningún equipo con ese código. No se puede eliminar.");
                     }
                 }
+
                 case 5 -> {
                     System.out.println("Lista de Equipos:");
                     for (Map.Entry<String, Team> entry : controlador.equipos.entrySet()) {
@@ -93,13 +84,13 @@ public class viewTeam {
                         System.out.println("Código: " + codigoEquipo + ", Nombre: " + equipo.getNombre() + ", Ciudad: " + equipo.getCiudad());
                     }
                 }
+
                 case 6 -> {
-                    scanner.close();
-                    System.exit(0);       
+                    return;
                 }
-                    
-                default -> System.out.println("Opción inválida. Intente de nuevo.");
-            } 
+
+                default -> System.out.println("Opcion invalida, intentelo de nuevo.");
+            }
         }
     }
 }

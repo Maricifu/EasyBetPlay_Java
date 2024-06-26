@@ -8,21 +8,35 @@ import com.betplayeasy.view.viewPlayer;
 import com.betplayeasy.view.viewTeam;
 
 public class Main {
-    public static void main(String[] args) {
-        // Crear una instancia del controlador
-        Controller ctrl = new Controller();
 
+    public static void main(String[] args) {
+
+        Controller ctrlTeams = new Controller();
+        viewTeam.controlador = ctrlTeams;
+        viewTeam vt = new viewTeam();
         
-        // Establecer el controlador en cada vista y pasar equipoSeleccionado
-        viewDoctor vd = new viewDoctor(ctrl);
-        viewCoach vc = new viewCoach(ctrl);
-        viewPlayer vp = new viewPlayer(ctrl);
-        viewTeam vt = new viewTeam (ctrl);
+        Controller ctrlCoach = new Controller();
+        viewCoach.controlador = ctrlCoach;
+        viewCoach vc = new viewCoach();
+
+        Controller ctrlDoctor = new Controller();
+        viewDoctor.controlador = ctrlDoctor;
+        viewDoctor vd = new viewDoctor();
+        
+        Controller ctrlPlayer = new Controller();
+        viewPlayer.controlador = ctrlPlayer;
+        viewPlayer vp = new viewPlayer();
+
 
         Scanner scanner = new Scanner(System.in);
 
         // Menú inicial
         while (true) {
+            System.out.println("   ___      __  ___  __            __                         \n" + //
+                                "  / _ )___ / /_/ _ \\/ /__ ___ __  / /  ___ ___ ____ ___ _____ \n" + //
+                                " / _  / -_) __/ ___/ / _ `/ // / / /__/ -_) _ `/ _ `/ // / -_)\n" + //
+                                "/____/\\__/\\__/_/  /_/\\_,_/\\_, / /____/\\__/\\_,_/\\_, /\\_,_/\\__/ \n" + //
+                                "                         /___/                /___/           ");
             System.out.println("Seleccione una opcion:");
             System.out.println("1. Doctor");
             System.out.println("2. Coach");
